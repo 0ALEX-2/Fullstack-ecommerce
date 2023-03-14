@@ -32,7 +32,7 @@ export const registerController = async (req, res) => {
       return res.status(200).send({
         success: false,
         message: "Already Registered, please Login",
-      });
+      }); 
     }
     //register user
     const hashedPassword = await hashPassword(password);
@@ -42,7 +42,7 @@ export const registerController = async (req, res) => {
       email,
       phone,
       address,
-      password: hashedPassword,
+      password: hashedPassword, 
       answer,
     }).save();
 
@@ -55,7 +55,7 @@ export const registerController = async (req, res) => {
     console.log(message);
     res.status(500).send({
       success: false,
-      message: "message in Registration",
+      message: "Error in Registration",
       message,
     });
   }

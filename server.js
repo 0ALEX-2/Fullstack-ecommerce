@@ -8,6 +8,7 @@ import cors from "cors"
 import categoryRoutes from "./routes/categoryRoutes.js"
 
 
+
 //configure env
 dotenv.config()
 //rest object
@@ -30,10 +31,10 @@ app.get("/",(req,res)=>{
     res.send(
         "<h1>Welcome to ecommerce app</h1>"
     )
-})
+}) 
 
 //port
-const PORT=process.env.PORT || 8080
+const PORT=process.env.PORT || 8080 
 
 //run listen
 app.listen(PORT,()=>{
