@@ -26,7 +26,8 @@ try {
     console.log(error);
     res.status(500).send({
         success:false,
-        message:"Error in category"
+        message:"Error in category",
+        error, 
     })
 }
 }
@@ -55,7 +56,7 @@ try {
 export const categoryController=async(req,res)=>{
   try {
     const category=await categoryModel.find({})
-    res.status(200),send({
+    res.status(200).send({
         success:true,
         message:"All category list",
         category,

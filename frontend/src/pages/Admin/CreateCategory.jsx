@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import toast from "react-hot-toast";
-import axios from "axios";
+import axios, { Axios } from "axios";
 import CategoryForm from "../../components/Form/CategoryForm";
+import { Modal } from "antd";
 
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
   const [name, setName] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [selected, setSelected] = useState(null);
+  const [updatedName, setUpdatedName] = useState("");
 
   //Handle form
   const handleSubmit = async (e) => {
@@ -18,8 +22,8 @@ const CreateCategory = () => {
         { name }
       );
       if (data?.success) {
-        toast.success(`${data.name} is created.`);
-        getAllCategory()
+        toast.success(`${name} is created.`);
+        getAllCategory();
       } else {
         toast.error(data.message);
       }
@@ -35,8 +39,8 @@ const CreateCategory = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/category/get-category`
       );
-      if (data.success) {
-        setCategories(data.category);
+      if (data?.success) {
+        setCategories(data?.category);
       }
     } catch (error) {
       console.log(error);
@@ -48,6 +52,27 @@ const CreateCategory = () => {
     getAllCategory();
   }, []);
 
+  //Update Category
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.put(
+        `${process.env.REACT_APP_API}/api/v1/category/update-category/${selected._id}`,
+        { name: updatedName }
+      );
+      if (data.success) {
+        toast.success(`${updatedName} is updated.`);
+        setSelected(null);
+        setUpdatedName("");
+        setVisible(false);
+        getAllCategory();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+    }
+  };
   return (
     <Layout title={"Dashboard - Create - Products"}>
       <div className="container-fluid m-3 p-3">
@@ -79,7 +104,17 @@ const CreateCategory = () => {
                         <td key={ele._id}>{ele.name}</td>
 
                         <td>
-                          <button className="btn btn-primary">Edit</button>
+                          <button
+                            className="btn btn-primary m-2"
+                            onClick={() => {
+                              setVisible(true);
+                              setUpdatedName(ele.name);
+                              setSelected(ele)
+                            }}
+                          >
+                            Edit
+                          </button>
+                          <button className="btn btn-danger m-2">Delete</button>
                         </td>
                       </tr>
                     </>
@@ -87,6 +122,17 @@ const CreateCategory = () => {
                 </tbody>
               </table>
             </div>
+            <Modal
+              onCancel={() => setVisible(false)}
+              footer={null}
+              visible={visible}
+            >
+              <CategoryForm
+                value={updatedName}
+                setValue={setUpdatedName}
+                handleSubmit={handleUpdate}
+              />
+            </Modal>
           </div>
         </div>
       </div>
