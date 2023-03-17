@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
 import toast from "react-hot-toast";
-import axios, { Axios } from "axios";
+import axios from "axios";
 import CategoryForm from "../../components/Form/CategoryForm";
 import { Modal } from "antd";
 
@@ -73,8 +73,27 @@ const CreateCategory = () => {
       toast.error("Something Went Wrong!");
     }
   };
+
+  //Delete category
+  const handleDelete= async (id) => {
+   
+    try {
+      const { data } = await axios.delete(
+        `${process.env.REACT_APP_API}/api/v1/category/delete-category/${id}`,
+        { name: updatedName }
+      );
+      if (data.success) {
+        toast.success(`Category is deleted.`);
+        getAllCategory();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error("Something Went Wrong!");
+    }
+  };
   return (
-    <Layout title={"Dashboard - Create - Products"}>
+    <Layout title={"Dashboard - Create Category"}>
       <div className="container-fluid m-3 p-3">
         <div className="row">
           <div className="col-md-3">
@@ -114,7 +133,7 @@ const CreateCategory = () => {
                           >
                             Edit
                           </button>
-                          <button className="btn btn-danger m-2">Delete</button>
+                          <button className="btn btn-danger m-2" onClick={()=>{handleDelete(ele._id)}}>Delete</button>
                         </td>
                       </tr>
                     </>
