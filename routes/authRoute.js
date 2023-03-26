@@ -1,32 +1,15 @@
 import express from "express"
-import {registerController,loginController, testController, forgotPasswordController} from "../controllers/authController.js"
-import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js"
+import {loginController, registerController} from "../controllers/authController.js"
 
-
-//router object
+//Router object
 const router=express.Router()
 
-//routing
-//Register || method post
-router.post('/register',registerController)
+//Routing
 
-//Login || POST
-router.post('/login',loginController)
+//Register, POST method
+router.post("/register",registerController)
 
-//Forgot Password || POST
-router.post('/forgot-password', forgotPasswordController)
-
-//Test routes
-router.get("/test",requireSignIn,isAdmin ,testController)
-
-//Protected User route
-router.get('/user-auth',requireSignIn, (req,res)=>{
-    res.status(200).send({ok:true})
-})
-
-//Protected Admin Route
-router.get('/admin-auth',requireSignIn,isAdmin, (req,res)=>{
-    res.status(200).send({ok:true})
-})
+//Login, post method
+router.post("/login", loginController)
 
 export default router 
