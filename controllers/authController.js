@@ -9,19 +9,19 @@ try {
     const {name,email,password,phone,address}=req.body
     //Validation
     if(!name){
-        return res.send({error:"Name is required."})
+        return res.send({message:"Name is required."})
     }
     if(!email){
-        return res.send({error:"Email is required."})
+        return res.send({message:"Email is required."})
     }
     if(!password){
-        return res.send({error:"Password is required."})
+        return res.send({message:"Password is required."})
     }
     if(!phone){
-        return res.send({error:"Phone number is required."})
+        return res.send({message:"Phone number is required."})
     }
     if(!address){
-        return res.send({error:"Address is required."})
+        return res.send({message:"Address is required."})
     }
 
     //Check user
@@ -29,7 +29,7 @@ try {
     //Check Existing user
     if(existingUser){
         return res.status(200).send({
-            success:true,
+            success:false,
             message:"Already registered, please login."
         })
     }
@@ -45,12 +45,12 @@ try {
         message:"User registered successfully.",
         user
     })
-} catch (error) {
-    console.log(error);
+} catch (message) {
+    console.log(message);
     res.status(500).send({
         success:false,
         message:"Error in Registration",
-        error
+        message
     })
 }
 }
@@ -96,12 +96,12 @@ try {
     },
     token, 
    })
-} catch (error) {
-    console.log(error);
+} catch (message) {
+    console.log(message);
     res.status(500).send({
         success:false,
         message:"Error in login",
-        error 
+        message 
     })
 }
 }
