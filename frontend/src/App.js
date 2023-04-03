@@ -7,6 +7,8 @@ import Policy from "./pages/Policy";
 import PageNotFound from "./pages/PageNotFound";
 import Register from "./pages/Auth/Register";
 import Login from "./pages/Auth/Login";
+import Dashboard from "./pages/User/Dashboard";
+import { PrivetRoute } from "./Routes/Privet";
 
 function App() {
   return (
@@ -19,6 +21,12 @@ function App() {
        <Route path="*" element={<PageNotFound/>}/>
        <Route path="/register" element={<Register/>}/>
        <Route path="/login" element={<Login/>}/>
+
+       {/* Protected Routs */}
+       <Route path="/dashboard" element={<PrivetRoute/>}>
+       <Route path="" element={<Dashboard/>}/>
+       </Route>
+
     </Routes>
     </>
   );

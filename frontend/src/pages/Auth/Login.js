@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Layout from '../../components/Layout/Layout'
 import "../../styles/AuthStyles.css";
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,useLocation } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useAuth } from '../../Context/auth';
 
@@ -15,6 +15,7 @@ const initialData={
 const Login = () => {
   const [user,setUser]=useState(initialData)
   const navigate=useNavigate()
+  const location=useLocation()
   const [auth,setAuth]=useAuth()
 
     const handleChange=(e)=>{
@@ -33,7 +34,7 @@ const Login = () => {
         token:res.data.token,
       })
       localStorage.setItem('auth',JSON.stringify(res.data))
-      navigate("/")
+      navigate(location.state||"/")
     }else{
       toast.error(res.data.message)
     }
@@ -74,9 +75,16 @@ const Login = () => {
             />
           </div>
 
+         <div >
           <button type="submit" className="btn btn-primary">
             Login
           </button>
+         </div>
+         <div className='mt-3'>
+          <button className="btn btn-primary" onClick={()=>{navigate("/forgot-password")}}>
+            Forgote Password
+          </button>
+        </div> 
         </form>
       </div>
     </Layout>

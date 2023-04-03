@@ -11,9 +11,11 @@ const initialState = {
   phone: "",
   address: "",
   password: "",
+  answer:""
 };
 const Register = () => {
   const [formData, setFormData] = useState(initialState);
+
   const navigate=useNavigate()
 
   const handleChange = (e) => {
@@ -29,7 +31,8 @@ const Register = () => {
       email:"",
       phone:"",
       address:"",
-      password:""
+      password:"",
+      answer:""
     })
    try {
     const res=await axios.post(`${process.env.REACT_APP_API}/api/v1/auth/register`,{name,email,phone,address,password})
@@ -45,7 +48,7 @@ const Register = () => {
    }
   };
 
-  const { name, email, phone, address, password } = formData;
+  const { name, email, phone, address, password,answer } = formData;
 
   return (
     <Layout title={"Registration-HutBajar"} style={{ minHeight: "90vh" }}>
@@ -110,6 +113,18 @@ const Register = () => {
               type="password"
               className="form-control"
               name="password"
+              value={password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="mb-3">
+            <input
+              placeholder="What is your favorite food?"
+              type="answer"
+              className="form-control"
+              name="answer"
               value={password}
               onChange={handleChange}
               required
